@@ -176,3 +176,124 @@ footer {
 .hamburger div {
   transition: all 0.3s ease;
 }
+/* mobile centering */
+.home-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.logo {
+  display: block;
+  margin: 20px auto; /* Center horizontally */
+  max-width: 200px; /* Limit size for mobile */
+  width: 100%;
+  height: auto;
+  border-radius: 15px; /* Rounded corners */
+  padding: 10px;
+  background-color: #fff; /* White background behind logo */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Soft shadow */
+}
+
+
+.shop-btn {
+  display: inline-block;
+  margin: 15px auto;
+  padding: 10px 20px;
+  background-color: #ff6600;
+  color: #fff;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.explore-text {
+  margin: 10px auto 20px;
+  font-size: 16px;
+  max-width: 300px;
+}
+
+.follow-heading {
+  margin-top: 20px;
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+/* css menu */
+/* Default nav hide in mobile */
+.nav-links {
+  display: none;
+  flex-direction: column;
+  background-color: #111;
+  position: absolute;
+  top: 60px;
+  right: 0;
+  width: 200px;
+  text-align: center;
+  padding: 10px 0;
+  border-radius: 0 0 10px 10px;
+}
+
+/* Show when active */
+.nav-links.active {
+  display: flex;
+}
+
+/* Nav link styles */
+.nav-links li {
+  margin: 10px 0;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+/* Hamburger animation */
+.hamburger {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 25px;
+  height: 20px;
+}
+
+.hamburger div {
+  background-color: white;
+  height: 3px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.hamburger.toggle div:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.toggle div:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.toggle div:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Desktop view */
+@media (min-width: 768px) {
+  .nav-links {
+    display: flex !important;
+    flex-direction: row;
+    position: static;
+    background: none;
+    width: auto;
+    border-radius: 0;
+  }
+
+  .hamburger {
+    display: none;
+  }
+}
