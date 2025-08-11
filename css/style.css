@@ -297,3 +297,15 @@ footer {
     display: none;
   }
 }
+/* share button */
+.share-buttons a {
+  margin-right: 8px;
+  padding: 5px 10px;
+  color: white;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+}
+.share-whatsapp { background-color: #25D366; }
+.share-facebook { background-color: #3b5998; }
+.share-twitter { background-color: #1DA1F2; }
