@@ -297,15 +297,21 @@ footer {
     display: none;
   }
 }
-/* share button */
-.share-buttons a {
-  margin-right: 8px;
-  padding: 5px 10px;
-  color: white;
-  border-radius: 4px;
-  text-decoration: none;
-  font-size: 14px;
+ /* whatsaap */
+ .share-whatsapp {
+  background-color: #25D366;      /* WhatsApp green */
+  color: white;                   /* White text */
+  padding: 8px 15px;              /* Thoda padding for button size */
+  border-radius: 5px;             /* Rounded corners */
+  text-decoration: none;          /* Remove underline */
+  font-weight: 600;               /* Thoda bold text */
+  font-size: 14px;                /* Font size */
+  display: inline-block;          /* Inline-block for spacing */
+  transition: background-color 0.3s ease;  /* Smooth hover effect */
+  cursor: pointer;                /* Pointer cursor on hover */
 }
-.share-whatsapp { background-color: #25D366; }
-.share-facebook { background-color: #3b5998; }
-.share-twitter { background-color: #1DA1F2; }
+
+.share-whatsapp:hover {
+  background-color: #1ebe57;      /* Thoda dark green on hover */
+}
+
