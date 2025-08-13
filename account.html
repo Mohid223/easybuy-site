@@ -1,0 +1,252 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Account - EasyBuy</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #060121;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+header {
+    background-color: #000;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+header a img { width: 50px; height: auto; }
+nav a { color: #fff; margin: 0 10px; text-decoration: none; font-weight: 500; }
+nav a:hover { color: gold; }
+
+main {
+    max-width: 500px;
+    margin: 40px auto;
+    background-color: #0a0a2a;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+h1 { color: gold; text-align: center; margin-bottom: 30px; }
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+label { margin-bottom: 5px; font-weight: 500; }
+input {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+}
+button {
+    padding: 12px;
+    background-color: gold;
+    color: #000;
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+button:hover { background-color: #e6b800; }
+
+.switch {
+    text-align: center;
+    margin-top: 15px;
+    color: #aaa;
+}
+.switch a { color: gold; text-decoration: none; font-weight: 500; }
+.switch a:hover { text-decoration: underline; }
+
+footer {
+    background-color: #000;
+    text-align: center;
+    padding: 20px;
+    color: #888;
+    font-size: 14px;
+    margin-top: 40px;
+}
+.social-links {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+.social-links a img {
+    width: 40px;
+    filter: brightness(0) invert(1);
+    transition: 0.3s;
+}
+.social-links a:hover img { filter: brightness(0) invert(0.7); }
+
+/* Toast Notification */
+#toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: gold;
+    color: #000;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s, transform 0.5s;
+    z-index: 1000;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="logo">
+        <img src="images/easybuy_logo.png" alt="EasyBuy Logo">
+    </a>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="trending.html">Trending</a>
+        <a href="cart.html">Cart</a>
+        <a href="contact.html">Contact</a>
+        <a href="account.html">Account</a>
+    </nav>
+</header>
+
+<main>
+    <h1>My Account</h1>
+
+    <!-- Login Form -->
+    <form id="login-form">
+        <label for="login-email">Email</label>
+        <input type="email" id="login-email" placeholder="Enter your email" required>
+        <button type="submit">Login</button>
+    </form>
+
+    <div class="switch">
+        Don't have an account? <a href="#" onclick="toggleForms()">Sign Up</a>
+    </div>
+
+    <!-- Signup Form with OTP -->
+    <form id="signup-form" style="display:flex; flex-direction:column; margin-top:20px;">
+        <label for="signup-name">Full Name</label>
+        <input type="text" id="signup-name" placeholder="Enter your name" required>
+
+        <label for="signup-email">Email</label>
+        <input type="email" id="signup-email" placeholder="Enter your email" required>
+
+        <button type="submit">Send OTP</button>
+    </form>
+
+    <!-- OTP Verification Form -->
+    <form id="otp-form" style="display:none; flex-direction:column; margin-top:20px;">
+        <label for="otp-input">Enter OTP</label>
+        <input type="text" id="otp-input" placeholder="Enter OTP" required>
+        <button type="submit">Verify OTP & Sign Up</button>
+    </form>
+</main>
+
+<footer>
+    <p>&copy; 2025 EasyBuy. All rights reserved.</p>
+    <div class="social-links">
+        <a href="https://www.instagram.com/easybuy175" target="_blank">
+            <img src="images/insta icon.webp" alt="Instagram">
+        </a>
+        <a href="https://www.facebook.com/share/1RgQQHH4RP/" target="_blank">
+            <img src="images/fb icon.jpg" alt="Facebook">
+        </a>
+    </div>
+</footer>
+
+<div id="toast">Message</div>
+
+<script>
+// Toggle Login/Signup forms
+function toggleForms() {
+    const loginForm = document.getElementById('login-form');
+    const signupForm = document.getElementById('signup-form');
+    const otpForm = document.getElementById('otp-form');
+    loginForm.style.display = loginForm.style.display === 'none' ? 'flex' : 'none';
+    signupForm.style.display = signupForm.style.display === 'none' ? 'flex' : 'none';
+    otpForm.style.display = 'none';
+}
+
+// Toast notification
+const toast = document.getElementById('toast');
+function showToast(message) {
+    toast.textContent = message;
+    toast.style.opacity = 1;
+    toast.style.transform = 'translateY(0)';
+    setTimeout(() => {
+        toast.style.opacity = 0;
+        toast.style.transform = 'translateY(20px)';
+    }, 2000);
+}
+
+// OTP Signup Logic
+let generatedOTP = null;
+
+document.getElementById('signup-form').addEventListener('submit', function(e){
+    e.preventDefault();
+    const email = document.getElementById('signup-email').value;
+    const name = document.getElementById('signup-name').value;
+
+    generatedOTP = Math.floor(100000 + Math.random() * 900000);
+    console.log('OTP (demo):', generatedOTP);
+
+    // Send OTP via Formspree
+    fetch("https://formspree.io/f/xldlveag", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            email: email,
+            message: `Hello ${name}, your OTP for EasyBuy signup is: ${generatedOTP}`
+        })
+    }).then(() => {
+        showToast("OTP sent to your email!");
+        document.getElementById('signup-form').style.display = 'none';
+        document.getElementById('otp-form').style.display = 'flex';
+    }).catch(err => console.error(err));
+});
+
+// Verify OTP
+ // Verify OTP
+document.getElementById('otp-form').addEventListener('submit', function(e){
+    e.preventDefault(); // Important: prevent page reload
+    const enteredOTP = document.getElementById('otp-input').value;
+    
+    if (enteredOTP === generatedOTP.toString()) {
+        showToast("Signup successful!");
+        document.getElementById('otp-form').style.display = 'none';
+        const name = document.getElementById('signup-name').value;
+        const email = document.getElementById('signup-email').value;
+        localStorage.setItem('user', JSON.stringify({name,email}));
+    } else {
+        showToast("Incorrect OTP. Try again.");
+    }
+});
+
+
+// Login Demo
+document.getElementById('login-form').addEventListener('submit', function(e){
+    e.preventDefault();
+    const email = document.getElementById('login-email').value;
+    const user = JSON.parse(localStorage.getItem('user'));
+    if(user && user.email === email){
+        showToast(`Welcome back, ${user.name}!`);
+    } else {
+        showToast("User not found. Please sign up.");
+    }
+});
+</script>
+
+</body>
+</html>

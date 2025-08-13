@@ -2,56 +2,473 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>EasyBuy - Home</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <script src="js/script.js" defer></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EasyBuy – Deals, Trending & Blogs</title>
+  <meta name="description" content="EasyBuy – Shop trending products, read helpful blogs, and find the best deals. Fully responsive and fast." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+      /* Logo styling */
+    header a img {
+        display: block;
+        width: 50px; /* adjust size as needed */
+        height: auto;
+    }
+    /* --------- Variables & Base --------- */
+    :root{
+      --brand:#2563eb;
+      --brand-2:#1e40af;
+      --accent:#f97316;
+      --bg:#0b1220;
+      --card:#111829;
+      --muted:#94a3b8;
+      --text:#e5e7eb;
+      --success:#10b981;
+      --danger:#ef4444;
+      --shadow:0 10px 30px rgba(0,0,0,.25);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",sans-serif}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{width:min(1180px,92%);margin-inline:auto}
+
+    /* --------- Header --------- */
+    .topbar{position:sticky;top:0;z-index:50;background:rgba(11,18,32,.75);backdrop-filter:blur(12px);border-bottom:1px solid rgba(148,163,184,.12)}
+    .nav{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:14px 0}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.3px}
+    .brand-logo-img{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--accent));box-shadow:var(--shadow)}
+    .nav-links{display:flex;gap:18px;align-items:center}
+    .nav-links a{padding:10px 12px;border-radius:12px;color:var(--text);opacity:.85}
+    .nav-links a:hover{background:rgba(148,163,184,.12);opacity:1}
+    .searchbar{position:relative;flex:1;max-width:520px;margin-inline:18px}
+    .searchbar input{width:100%;padding:12px 44px;border-radius:14px;border:1px solid rgba(148,163,184,.25);background:#0e1627;color:var(--text);outline:none}
+    .searchbar button{position:absolute;right:6px;top:50%;transform:translateY(-50%);padding:9px 14px;border-radius:10px;border:none;background:var(--brand);color:white;cursor:pointer}
+    .searchbar button:hover{background:var(--brand-2)}
+    .icons{display:flex;gap:12px}
+    .icon-btn{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:#0e1627;border:1px solid rgba(148,163,184,.25);cursor:pointer}
+    .icon-btn:hover{background:#121c2f}
+    .hamburger{display:none}
+    @media(max-width:860px){
+      .nav{gap:10px}
+      .nav-links{display:none}
+      .searchbar{max-width:none;margin:0}
+      .hamburger{display:inline-flex}
+    }
+    .mobile-menu{position:fixed;inset:0 0 auto 0;top:58px;background:rgba(11,18,32,.98);border-top:1px solid rgba(148,163,184,.12);display:none}
+    .mobile-menu.open{display:block}
+    .mobile-menu a{display:block;padding:14px 20px;border-bottom:1px solid rgba(148,163,184,.08)}
+
+    /* --------- Hero --------- */
+    .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:26px;align-items:center;padding:34px 0}
+    .badge{display:inline-flex;gap:8px;align-items:center;background:rgba(37,99,235,.15);color:#c7d2fe;padding:8px 12px;border:1px dashed rgba(37,99,235,.4);border-radius:999px;font-weight:600}
+    .headline{font-size:clamp(28px,4.5vw,48px);line-height:1.1;margin:14px 0 12px}
+    .sub{color:var(--muted);font-size:clamp(14px,2.2vw,16px)}
+    .cta{margin-top:18px;display:flex;gap:12px}
+    .btn{padding:12px 16px;border-radius:14px;border:1px solid rgba(148,163,184,.25);background:#0e1627;color:var(--text);cursor:pointer}
+    .btn.primary{background:linear-gradient(135deg,var(--brand),var(--accent));border:none}
+    .btn.primary:hover{filter:brightness(.98)}
+    .hero-card{background:radial-gradient(1200px 400px at 20% -10%, rgba(37,99,235,.25), transparent 40%),linear-gradient(180deg,#0e1627,rgba(14,22,39,.6));border:1px solid rgba(148,163,184,.18);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+    .hero-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}
+    .hero-item{background:#0b1426;border:1px solid rgba(148,163,184,.14);border-radius:16px;overflow:hidden}
+    .hero-item img{aspect-ratio:16/11;object-fit:cover}
+    .hero-item p{margin:10px 12px 12px;color:var(--muted);font-size:14px}
+    @media(max-width:980px){.hero{grid-template-columns:1fr}}
+
+    /* --------- Sections --------- */
+    .section{margin:28px 0}
+    .section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+    .section-head h2{margin:0;font-size:22px}
+    .view-all{font-size:14px;color:#c7d2fe;opacity:.9}
+    .view-all:hover{opacity:1;text-decoration:underline}
+
+    /* --------- Category Grid --------- */
+    .cat-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+    .cat{background:#0e1627;border:1px solid rgba(148,163,184,.14);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px 8px;gap:10px;transition:transform .18s ease, background .18s}
+    .cat:hover{transform:translateY(-3px);background:#101a2d}
+    .cat span{font-size:14px;color:var(--muted)}
+    @media(max-width:980px){.cat-grid{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:560px){.cat-grid{grid-template-columns:repeat(2,1fr)}}
+
+    /* --------- Product Grid --------- */
+    .prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .card{background:linear-gradient(180deg,#0f172a,#0b1426);border:1px solid rgba(148,163,184,.14);border-radius:18px;overflow:hidden;transition:transform .18s ease, box-shadow .18s}
+    .card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+    .card-img{position:relative;background:#0b1426}
+    .card-img img{width:100%;aspect-ratio:1/1;object-fit:cover}
+    .tag{position:absolute;top:10px;left:10px;background:var(--accent);color:white;font-size:12px;padding:6px 10px;border-radius:999px}
+    .card-body{padding:12px}
+    .price{display:flex;align-items:center;gap:10px;margin:6px 0 10px}
+    .price b{font-size:18px}
+    .price s{color:var(--muted);font-size:13px}
+    .actions{display:flex;gap:10px}
+    .pill{flex:1;text-align:center;padding:10px;border-radius:12px;border:1px solid rgba(148,163,184,.2)}
+    .pill.primary{background:var(--brand);border:none;color:white}
+    .pill.secondary{background:#0e1627;color:var(--text)}
+    @media(max-width:1100px){.prod-grid{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:780px){.prod-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:520px){.prod-grid{grid-template-columns:1fr}}
+
+    /* --------- Blog Grid --------- */
+    .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .blog-card{background:#0e1627;border:1px solid rgba(148,163,184,.14);border-radius:18px;overflow:hidden}
+    .blog-card img{aspect-ratio:16/9;object-fit:cover}
+    .blog-card .meta{padding:12px}
+    .meta h3{margin:0 0 6px;font-size:18px}
+    .meta p{margin:0;color:var(--muted);font-size:14px}
+    @media(max-width:980px){.blog-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:620px){.blog-grid{grid-template-columns:1fr}}
+
+    /* --------- Footer & Bottom Nav --------- */
+    footer{margin-top:34px;border-top:1px solid rgba(148,163,184,.12);padding:18px 0;color:var(--muted)}
+    .foot{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .foot a{color:var(--text);opacity:.8}
+    .bottom-bar{position:sticky;bottom:0;background:#0e1627;border-top:1px solid rgba(148,163,184,.16);display:none}
+    .bottom-nav{display:grid;grid-template-columns:repeat(4,1fr);text-align:center}
+    .bottom-nav a{padding:10px 8px;font-size:12px;color:var(--muted)}
+    @media(max-width:700px){.bottom-bar{display:block}}
+
+    /* --------- WhatsApp Button --------- */
+    .wa{position:fixed;right:16px;bottom:80px;width:56px;height:56px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);z-index:60}
+    .wa:hover{filter:brightness(.95)}
+    .muted{color:var(--muted)}
+  </style>
 </head>
 <body>
-
-<header>
-  <nav class="navbar">
-    <a href="index.html" class="nav-logo">
-      <img src="easybuy_logo.png" alt="EasyBuy Logo">
-    </a>
-
-    <ul class="nav-links">
-      <li><a href="index.html" class="active">Home</a></li>
-      <li><a href="shop.html">Shop</a></li>
-      <li><a href="contact.html">Contact</a></li>
-      <li><a href="terms.html">Terms & Conditions</a></li>
-    </ul>
-
-    <div class="hamburger">
-      <div></div>
-      <div></div>
-      <div></div>
+  <!-- HEADER -->
+  <header class="topbar">
+    <div class="container nav">
+      <a href="index.html" class="brand" aria-label="EasyBuy Home">
+         <img src="images/easybuy_logo.png" alt="EasyBuy Logo"  >
+         <span>EasyBuy</span>
+      </a>
+      <button class="icon-btn hamburger" id="menuBtn" aria-label="Open Menu">☰</button>
+      <form class="searchbar" id="searchForm" role="search" aria-label="Search products and blogs">
+        <input id="searchInput" type="search" placeholder="Search products, categories, blogs…" />
+        <button type="submit">Search</button>
+      </form>
+      <nav class="nav-links">
+        <a href="shop.html">Shop</a>
+        <a href="trending.html">Trending</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="icons">
+        <a class="icon-btn" href="cart.html" aria-label="Cart">🛒</a>
+        <a class="icon-btn" href="account.html" aria-label="Account">👤</a>
+      </div>
     </div>
-  </nav>
-</header>
- <main class="home-container">
-  <h1>Welcome to EasyBuy!</h1>
-  <p>Your one-stop shop for fashion & lifestyle products.</p>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="shop.html">Shop</a>
+      <a href="trending.html">Trending</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact.html">Contact</a>
+      <a href="cart.html">Cart</a>
+      <a href="account.html">Account</a>
+    </div>
+  </header>
 
-  <img src="easybuy_logo.png" alt="EasyBuy Logo" class="logo">
+  <!-- HERO -->
+  <section class="container hero">
+    <div>
+      <span class="badge">🔥 Mega Sale Live – Grab Your Favorites Now!</span>
+      <h1 class="headline">Discover Trending Deals & Smart Buys — All in One Place.</h1>
+      <p class="sub">Shop popular picks, explore expert blog tips, and never miss a discount.  friendly experience.</p>
+      <div class="cta">
+        <a class="btn primary" href="shop.html">Shop Now</a>
+        <a class="btn" href="blog.html">Read Blogs</a>
+      </div>
+    </div>
 
-  <a href="shop.html" class="shop-btn">Shop Now</a>
-
-  <p class="explore-text">
-    Explore our exclusive collection of Amazon affiliate products.
-  </p>
-
-  <h2 class="follow-heading">Follow us on Social Media</h2>
-  <div class="social-links">
-    <a href="https://instagram.com/easybuy175" target="_blank">Instagram</a>
-    <a href="https://linkedin.com/in/easybuy" target="_blank">LinkedIn</a>
+    <div class="hero-card">
+      <div class="hero-grid">
+        <a class="hero-item" href="https://amzn.to/45eQAsq">
+          <img src="images/noise-canceelind.jpg" alt="Wireless Headphones" />
+          <p>Noise‑Canceling Headphones</p>
+        </a>
+        <a class="hero-item" href=" https://amzn.to/4oAdCkU">
+          <img src="images/smart healt.webp" alt="Smartwatch" />
+          <p>Smartwatch with Health Suite</p>
+        </a>
+        <a class="hero-item" href="https://amzn.to/3HtslO2">
+          <img src="images/run.jpg" alt="Sneakers" />
+          <p>Comfort Running Sneakers</p>
+        </a>
+        <a class="hero-item" href=" https://amzn.to/4mNuL9n">
+          <img src="images/trv.jpg" alt="Backpack" />
+          <p>Travel‑Ready Backpack</p>
+        </a>
+      </div>
+    </div>
+  </section>
+ <!-- Category Section -->
+<section class="container section">
+  <div class="section-head">
+    <h2>Categories</h2>
+    <a href="shop.html" class="view-all">View All</a>
   </div>
-</main>
+  <div class="cat-grid">
+    <a href="shop.html?category=All" class="cat">
+      <img src="images/easybuy_logo.png" alt="All">
+      <span>All</span>
+    </a>
+    <a href="shop.html?category=electronics" class="cat">
+      <img src="images/electronics.jpg" alt="Electronics">
+      <span>Electronics</span>
+    </a>
+    <a href="shop.html?category=fashion" class="cat">
+      <img src="images/faishon.jpg" alt="Fashion">
+      <span>Fashion</span>
+    </a>
+    <a href="shop.html?category=clothes" class="cat">
+      <img src="images/clothes.jpg" alt="Clothes">
+      <span>Clothes</span>
+    </a>
+    <a href="shop.html?category=footwear" class="cat">
+      <img src="images/redtape.jpg" alt="Footwear">
+      <span>Footwear</span>
+    </a>
+    <a href="shop.html?category=watches" class="cat">
+      <img src="images/watchess.jpg" alt="Watches">
+      <span>Watches</span>
+    </a>
+  </div>
+</section>
 
 
-<footer>
-  &copy; 2025 EasyBuy. All rights reserved.
-</footer>
+
+ <!-- Products Section -->
+<section class="container section">
+  <div class="section-head">
+    <h2>Trending Products</h2>
+    <a href="shop.html" class="view-all">View All</a>
+  </div>
+  <div class="prod-grid">
+
+    <!-- Product 1 -->
+    <div class="card">
+      <div class="card-img">
+        <img src="images/11.jpg" alt="soundcore by Anker Q20i Headphones">
+        <div class="tag">Sale</div>
+      </div>
+      <div class="card-body">
+        <p>soundcore by Anker Q20i Hybrid Active Noise Cancelling Headphones</p>
+        <div class="price"><b>₹4,299</b> <s>₹4,999</s></div>
+        <div class="actions">
+          <a href="https://amzn.to/4ovRCrH" target="_blank" class="pill primary">Buy Now</a>
+        <button class="pill secondary add-to-cart" 
+    data-title="soundcore by Anker Q20i Hybrid Active Noise Cancelling Headphones"
+    data-price="4299"
+    data-img="images/11.jpg">
+    Add to Cart
+</button>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Product 2 -->
+    <div class="card">
+      <div class="card-img">
+        <img src="images/12.jpg" alt="GOBOULT Drift+ Smart Watch">
+        <div class="tag">Hot</div>
+      </div>
+      <div class="card-body">
+        <p>GOBOULT Drift+ Smart Watch 1.85'' HD Screen, Bluetooth Calling, IP68</p>
+        <div class="price"><b>₹1,199</b> <s>₹1,499</s></div>
+        <div class="actions">
+          <a href="https://amzn.to/4m8o4P4" target="_blank" class="pill primary">Buy Now</a>
+ <!-- Product 2 -->
+<button class="pill secondary add-to-cart"
+    data-title="GOBOULT Drift+ Smart Watch 1.85'' HD Screen, Bluetooth Calling, IP68"
+    data-price="1199"
+    data-img="images/12.jpg">
+    Add to Cart
+</button>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Product 3 -->
+    <div class="card">
+      <div class="card-img">
+        <img src="images/13.jpg" alt="SOLEBROS Mens Sporty Sneakers">
+      </div>
+      <div class="card-body">
+        <p>SOLEBROS Mens Sporty Sneakers All-Day Comfort Trainers</p>
+        <div class="price"><b>₹799</b> <s>₹1,299</s></div>
+        <div class="actions">
+          <a href="https://amzn.to/4mGNGSY" target="_blank" class="pill primary">Buy Now</a>
+        <!-- Product 3 -->
+<button class="pill secondary add-to-cart"
+    data-title="SOLEBROS Mens Sporty Sneakers All-Day Comfort Trainers"
+    data-price="799"
+    data-img="images/13.jpg">
+    Add to Cart
+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product 4 -->
+    <div class="card">
+      <div class="card-img">
+        <img src="images/14.jpg" alt="The Bags Maker Stylish Girls' Backpack Combo Set">
+      </div>
+      <div class="card-body">
+        <p>The Bags Maker Stylish Girls' Backpack Combo Set – School & Travel Ready</p>
+        <div class="price"><b>₹483</b> <s>₹799</s></div>
+        <div class="actions">
+          <a href="https://amzn.to/4mgmnzl" target="_blank" class="pill primary">Buy Now</a>
+          <button class="pill secondary add-to-cart" 
+          data-title="The Bags Maker Stylish Girls' Backpack Combo Set"
+          data-price="483"
+           data-img="images/14.jpg">
+          Add to Cart
+        </button>
+ 
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+<!-- blog -->
+
+ <section class="container section">
+  <div class="section-head">
+    <h2>Latest Blogs</h2>
+    <a href="blog.html" class="view-all">View All</a>
+  </div>
+
+  <div class="blog-grid">
+    <div class="blog-card">
+      <img src="images/pexels-willianjusten-792345.jpg" alt="Top Gadgets">
+      <div class="meta">
+        <h3>Top 10 Gadgets in 2025</h3>
+        <p>Explore the trending gadgets that everyone is talking about this year.</p>
+        <a href="blog.html">Read More</a>
+      </div>
+    </div>
+
+    <div class="blog-card">
+      <img src="images/pexels-olly-974911.jpg" alt="Smart Shopping">
+      <div class="meta">
+        <h3>Smart Shopping Tips</h3>
+        <p>Learn how to save money while getting the best deals online.</p>
+        <a href="blog.html">Read More</a>
+      </div>
+    </div>
+
+    <div class="blog-card">
+      <img src="images/pexels-pixabay-157675.jpg" alt="Fashion Trends">
+      <div class="meta">
+        <h3>Fashion Trends 2025</h3>
+        <p>Check out the hottest fashion trends to stay stylish all year.</p>
+        <a href="blog.html">Read More</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+  <!-- Footer -->
+  <footer>
+    <div class="container foot">
+      <p>© <span id="year"></span> EasyBuy • Made with ❤</p>
+      <div class="muted">
+        <a href="privacy.html">Privacy</a> • <a href="terms.html">Terms</a> • <a href="contact.html">Support</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bottom Nav -->
+  <div class="bottom-bar">
+    <div class="container bottom-nav">
+      <a href="index.html">🏠<div>Home</div></a>
+      <a href="shop.html">🛍️<div>Shop</div></a>
+      <a href="trending.html">🔥<div>Trending</div></a>
+      <a href="contact.html">💬<div>Contact</div></a>
+    </div>
+  </div>
+
+  <!-- WhatsApp -->
+  <a class="wa" href="https://api.whatsapp.com/send?phone=91XXXXXXXXXX&text=Hi%20EasyBuy!%20I%20need%20help%20with..." target="_blank" aria-label="Chat on WhatsApp">💬</a>
+
+  <!-- Toast Notification -->
+<div id="toast" style="
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: gold;
+  color: #000;
+  padding: 15px 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s, transform 0.5s;
+  z-index: 1000;
+">
+  Product added to cart!
+</div>
+
+  <!-- Scripts -->
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if(menuBtn){ menuBtn.addEventListener('click',()=> mobileMenu.classList.toggle('open')); }
+    const searchForm = document.getElementById('searchForm');
+    const searchInput = document.getElementById('searchInput');
+    searchForm.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const q = encodeURIComponent(searchInput.value.trim());
+      if(q){ window.location.href = `search.html?q=${q}`; }
+    });
+  </script>
+  <!-- add to cart -->
+   <script>
+const addButtons = document.querySelectorAll('.add-to-cart');
+const toast = document.getElementById('toast');
+
+function showToast(message) {
+    toast.textContent = message;
+    toast.style.opacity = 1;
+    toast.style.transform = 'translateY(0)';
+    setTimeout(() => {
+        toast.style.opacity = 0;
+        toast.style.transform = 'translateY(20px)';
+    }, 2000); // Toast disappears after 2 seconds
+}
+
+addButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const title = btn.dataset.title;
+    const price = parseFloat(btn.dataset.price);
+    const img = btn.dataset.img;
+
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    const existing = cart.find(item => item.title === title);
+    if (existing) {
+      existing.quantity += 1;
+    } else {
+      cart.push({ title, price, img, quantity: 1 });
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    
+    // Show toast notification
+    showToast(`${title} has been added to your cart!`);
+  });
+});
+</script>
+
 
 </body>
 </html>

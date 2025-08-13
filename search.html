@@ -1,0 +1,122 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EasyBuy - Search Results</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  body { font-family: 'Poppins', sans-serif; background-color: #060121; color: #fff; margin: 0; padding: 0; }
+  header { background-color: #000; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+  header a img { width: 50px; height: auto; }
+  header h1 { color: gold; font-size: 24px; margin: 0; font-weight: 700; }
+  nav a { color: #fff; margin: 0 10px; text-decoration: none; font-weight: 500; }
+  nav a:hover { color: gold; }
+  .search-bar { text-align: center; padding: 20px; }
+  .search-bar input { padding: 10px; width: 250px; border: none; border-radius: 5px; outline: none; font-size: 14px; }
+  .search-bar button { padding: 10px 15px; background-color: rgb(48, 40, 204); border: none; border-radius: 5px; cursor: pointer; font-weight: 600; color: white; }
+  .search-bar button:hover { background-color: orange; }
+  .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 20px; }
+  .product-card { background-color: #1e1e1e; border-radius: 10px; overflow: hidden; text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+  .product-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+  .product-card img { width: 100%; height: 200px; object-fit: cover; }
+  .product-card h3 { margin: 10px 0; font-weight: 600; font-size: 16px; padding: 0 10px; }
+  .product-card .price { color: gold; font-weight: 600; margin-bottom: 10px; }
+  .product-card a { display: inline-block; margin: 5px 5px 15px; padding: 8px 12px; background-color: gold; color: #000; border-radius: 5px; text-decoration: none; font-weight: 500; font-size: 14px; transition: background-color 0.3s ease; }
+  .product-card a:hover { background-color: orange; }
+  footer { background-color: #000; text-align: center; padding: 15px; color: #888; margin-top: 20px; font-size: 14px; }
+  h1 { text-align: center; margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo"><img src="images/easybuy_logo.png" alt="EasyBuy Logo"></a>
+  <nav>
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="blog.html">Blog</a>
+      <a href="trending.html">Trending</a>
+      <a href="cart.html">Cart</a>
+      <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<div class="search-bar">
+  <form action="search.html" method="get">
+    <input type="text" id="searchInput" name="q" placeholder="Search products or blogs...">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<h1>Search Results</h1>
+<div class="product-grid" id="searchResults">
+  <!-- Results will be injected here -->
+</div>
+
+<footer>
+  &copy; 2025 EasyBuy. All rights reserved.
+</footer>
+
+<script>
+  // Get search query
+  const params = new URLSearchParams(window.location.search);
+  const query = params.get('q') ? params.get('q').toLowerCase() : '';
+  document.getElementById('searchInput').value = query;
+
+  // Products Array
+  const products = [
+    { name: "Red Tape Men's Clogs", type: "product", price: "₹1,299", img: "images/shoe.jpg", link:"https://amzn.to/3UmwlTj"},
+    { name: "Centrino Sneaker", type: "product", price: "₹1,499", img: "images/centrino.jpg", link:"https://amzn.to/47oBfXu"},
+    { name: "Red Tape Men's Super Sneakers", type: "product", price: "₹1,899", img: "images/redtape2.jpg", link:"https://amzn.to/3UVH8UF"},
+    { name: "Sonata Quartz Analog Watch", type: "product", price: "₹799", img: "images/sonata.jpg", link:"https://amzn.to/4ozSDyU"},
+    { name: "Redmi Pad Pro Tablet", type: "product", price: "₹29,999", img: "images/pad.jpg", link:"https://amzn.to/3Htq05G"},
+    { name: "Foldable Laptop Table", type: "product", price: "₹999", img: "images/foldable-table.jpg", link:"https://amzn.to/45w4d5o"},
+    { name: "DIVIJA Study Table", type: "product", price: "₹1,299", img: "images/table1.jpg", link:"https://amzn.to/45oZQZO"},
+    { name: "Nermosa Women Kurta Pant", type: "product", price: "₹799", img: "images/c1.jpg", link:"https://amzn.to/45fT0a8"},
+    { name: "IGC Men's Slim Fit Jeans", type: "product", price: "₹1,099", img: "images/c5.jpg", link:"https://amzn.to/4oBFHbO"},
+    { name: "Pinkmint Casual Shirt", type: "product", price: "₹899", img: "images/c4.jpg", link:"https://amzn.to/45zmvTf"},
+    { name: "XYXX Men's Trunks", type: "product", price: "₹499", img: "images/h1.jpg", link:"https://amzn.to/4oDs0ZW"}
+  ];
+
+  // Blogs Array
+  const blogs = [
+    { name: "Top 10 Gadgets in 2025", type: "blog", img: "images/pexels-willianjusten-792345.jpg", link:"blog.html#top-gadgets"},
+    { name: "Smart Shopping Tips", type: "blog", img: "images/pexels-pixabay-157675.jpg", link:"blog.html#smart-shopping"},
+    { name: "Fashion Trends 2025", type: "blog", img: "images/pexels-olly-974911.jpg", link:"blog.html#fashion-trends"}
+  ];
+
+  const allItems = [...products, ...blogs];
+  const filtered = allItems.filter(item => item.name.toLowerCase().includes(query));
+
+  const container = document.getElementById('searchResults');
+  container.innerHTML = "";
+  if(filtered.length === 0){
+    container.innerHTML = "<p style='text-align:center; color: #fff;'>No results found.</p>";
+  } else {
+    filtered.forEach(item => {
+      if(item.type === "product"){
+        container.innerHTML += `
+          <div class="product-card">
+            <img src="${item.img}" alt="${item.name}">
+            <h3>${item.name}</h3>
+            <p class="price">${item.price}</p>
+            <a href="${item.link}" target="_blank">Buy on Amazon</a>
+            <a href="https://api.whatsapp.com/send?text=Check%20out%20this%20product:%20${item.link}" target="_blank">WhatsApp</a>
+          </div>
+        `;
+      } else if(item.type === "blog"){
+        container.innerHTML += `
+          <div class="product-card">
+            <img src="${item.img}" alt="${item.name}">
+            <h3>${item.name}</h3>
+            <a href="${item.link}" target="_blank">Read Blog</a>
+          </div>
+        `;
+      }
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,128 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shopping Cart - EasyBuy</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body { font-family: 'Poppins', sans-serif; background-color: #060121; color: #fff; margin:0; padding:0; }
+header { background-color: #000; padding:15px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; }
+header a img { width:50px; }
+nav a { color:#fff; margin:0 10px; text-decoration:none; font-weight:500; }
+nav a:hover { color:gold; }
+main { padding:30px 20px; max-width:1000px; margin:0 auto; }
+h1 { color:gold; margin-bottom:20px; }
+table { width:100%; border-collapse:collapse; background-color:#0a0a2a; border-radius:10px; overflow:hidden; }
+th, td { padding:15px; text-align:center; }
+th { background-color:#1a1a3a; color:gold; }
+tr:nth-child(even) { background-color:#0e0e3c; }
+tr:hover { background-color:#1f1f4a; }
+img.product-img { width:80px; height:auto; }
+.quantity input { width:50px; text-align:center; border-radius:5px; border:none; padding:5px; }
+.remove-btn { background-color:#ff4d4d; border:none; padding:8px 12px; border-radius:5px; color:#fff; cursor:pointer; transition:0.3s; }
+.remove-btn:hover { background-color:#ff1a1a; }
+.checkout-btn { display:block; margin-top:20px; padding:15px 25px; background-color:gold; color:#000; font-weight:600; text-decoration:none; text-align:center; border-radius:5px; transition:0.3s; }
+.checkout-btn:hover { background-color:#e6b800; }
+footer { background-color:#000; text-align:center; padding:20px; color:#888; margin-top:30px; }
+.social-links { margin-top:10px; display:flex; justify-content:center; gap:15px; flex-wrap:wrap; }
+.social-links img { width:40px; filter: brightness(0) invert(1); transition:0.3s; }
+.social-links a:hover img { filter: brightness(0) invert(0.7); }
+@media (max-width:768px) { table, tr, th, td { font-size:14px; } img.product-img { width:60px; } }
+</style>
+</head>
+<body>
+
+<header>
+<a href="index.html"><img src="images/easybuy_logo.png" alt="EasyBuy Logo"></a>
+<nav>
+<a href="index.html">Home</a>
+<a href="shop.html">Shop</a>
+<a href="trending.html">Trending</a>
+<a href="cart.html">Cart</a>
+<a href="contact.html">Contact</a>
+</nav>
+</header>
+
+<main>
+<h1>Your Shopping Cart</h1>
+
+<table id="cart-table">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Title</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Remove</th>
+        </tr>
+    </thead>
+    <tbody id="cart-body">
+        <!-- Dynamic items will appear here -->
+    </tbody>
+</table>
+
+<a href="checkout.html" class="checkout-btn">Proceed to Checkout</a>
+</main>
+
+<footer>
+<p>&copy; 2025 EasyBuy. All rights reserved.</p>
+<div class="social-links">
+    <a href="https://www.instagram.com/easybuy175" target="_blank"><img src="images/insta icon.webp" alt="Instagram"></a>
+    <a href="https://www.facebook.com/share/1RgQQHH4RP/" target="_blank"><img src="images/fb icon.jpg" alt="Facebook"></a>
+</div>
+</footer>
+
+<script>
+const cartBody = document.getElementById('cart-body');
+
+function loadCart() {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  cartBody.innerHTML = '';
+
+  cart.forEach((item, index) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td><img src="${item.img}" alt="${item.title}" class="product-img"></td>
+      <td>${item.title}</td>
+      <td class="price">₹${item.price}</td>
+      <td class="quantity"><input type="number" min="1" value="${item.quantity}"></td>
+      <td class="total">₹${item.price * item.quantity}</td>
+      <td><button class="remove-btn" data-index="${index}">Remove</button></td>
+    `;
+    cartBody.appendChild(row);
+  });
+}
+
+// Quantity change
+cartBody.addEventListener('input', e => {
+  if(e.target.tagName==='INPUT'){
+    const row = e.target.closest('tr');
+    const price = parseFloat(row.querySelector('.price').textContent.replace('₹',''));
+    const quantity = parseInt(e.target.value);
+    row.querySelector('.total').textContent = '₹'+(price*quantity);
+
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const index = Array.from(cartBody.rows).indexOf(row);
+    cart[index].quantity = quantity;
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }
+});
+
+// Remove item
+cartBody.addEventListener('click', e => {
+  if(e.target.classList.contains('remove-btn')){
+    const index = e.target.dataset.index;
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.splice(index,1);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    loadCart();
+  }
+});
+
+loadCart();
+</script>
+
+</body>
+</html>
